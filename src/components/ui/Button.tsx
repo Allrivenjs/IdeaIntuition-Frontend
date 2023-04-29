@@ -1,87 +1,59 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
+type variant = 'text' | 'contained' | 'outlined';
+type color = 'primary' | 'success' | 'error' | 'danger';
+type rounded = 'sm' | 'base' | 'lg' | 'full';
+type size = 'sm' | 'base' | 'lg' | 'xl';
 interface ButtonProps {
   children: string;
-  variant?: 'text' | 'contained' | 'outlined';
-  size?: 'sm' | 'base' | 'lg' | 'xl';
-  color?: 'primary' | 'success' | 'error' | 'danger';
-  rounded?: 'sm' | 'base' | 'lg' | 'full';
+  variant?: variant;
+  color?: color;
+  size?: size;
+  rounded?: rounded;
 }
 
 export const Button: FC<ButtonProps> = ({
   children,
-  variant = '',
+  variant = 'text',
   size = 'base',
   color = 'primary',
   rounded = 'base',
 }) => {
-  const textColor =
-    variant === 'contained'
-      ? 'text-white'
-      : color === 'primary'
-      ? 'text-rose-500'
-      : color === 'success'
-      ? 'text-green-500'
-      : color === 'danger'
-      ? 'text-yellow-500'
-      : color === 'error'
-      ? 'text-red-700'
-      : 'text-indigo-500';
+  const variantStyles: Record<variant, Record<color, string>> = {
+    contained: {
+      primary: 'text-white bg-rose-500 hover:shadow-rose-500 border-0',
+      success: 'text-white bg-green-500 hover:shadow-green-500 border-0',
+      danger: 'text-white bg-yellow-500 hover:shadow-yellow-500 border-0',
+      error: 'text-white bg-red-700 hover:shadow-red-700 border-0',
+    },
+    text: {
+      primary: 'text-rose-500 bg-white hover:shadow-rose-500 border-0',
+      success: 'text-green-500 bg-white hover:shadow-green-500 border-0',
+      danger: 'text-yellow-500 bg-white hover:shadow-yellow-500 border-0',
+      error: 'text-red-700 bg-white hover:shadow-red-700 border-0',
+    },
+    outlined: {
+      primary:
+          'text-rose-500 border-rose-500 border-rose-500 hover:shadow-rose-500',
+      success:
+          'text-green-500 border-green-500 border-green-500 hover:shadow-green-500',
+      danger:
+          'text-yellow-500 border-yellow-500 border-yellow-500 hover:shadow-yellow-500',
+      error: 'text-red-700 border-red-700 border-red-700 hover:shadow-red-700',
+    },
+  };
+  const roundedValues: Record<rounded, string> = {
+    sm: 'rounded',
+    base: 'rounded-md',
+    lg: 'rounded-lg',
+    full: 'rounded-full',
+  };
 
-  console.log('text color', textColor);
-
-  const backgroundColor =
-    variant === 'outlined' || variant === 'text'
-      ? 'transparent'
-      : color === 'primary'
-      ? 'rose-500'
-      : color === 'success'
-      ? 'green-500'
-      : color === 'danger'
-      ? 'yellow-500'
-      : color === 'error'
-      ? 'red-700'
-      : 'black';
-
-  const borderColor =
-    variant === 'contained' || variant === 'text'
-      ? 'transparent'
-      : color === 'primary'
-      ? 'rose-500'
-      : color === 'success'
-      ? 'green-500'
-      : color === 'danger'
-      ? 'yellow-500'
-      : color === 'error'
-      ? 'red-700'
-      : 'black';
-
-  const shadowColor =
-    color === 'primary'
-      ? 'rose-500'
-      : color === 'success'
-      ? 'green-500'
-      : color === 'danger'
-      ? 'yellow-500'
-      : color === 'error'
-      ? 'red-700'
-      : 'black';
-
-  const roundedValue =
-    rounded === 'sm'
-      ? 'rounded'
-      : rounded === 'base'
-      ? 'rounded-md'
-      : rounded === 'lg'
-      ? 'rounded-lg'
-      : rounded === 'full'
-      ? 'rounded-full'
-      : 'rounded';
-
+  const roundedValue = roundedValues[rounded] || 'rounded';
   return (
     <button
-      className={`py-2 px-5 sm:px-8 text-${size} ${textColor} bg-${backgroundColor} font-medium tracking-wide border border-${borderColor} outline-none
-        ${roundedValue} capitalize transition-all hover:shadow hover:shadow-${shadowColor} `}
+      className={`py-2 px-5 sm:px-8 text-${size} ${(variantStyles[variant] as Record<color, string>)[color]}  font-medium tracking-wide border outline-none
+        ${roundedValue} capitalize transition-all hover:shadow`}
     >
       {children}
     </button>

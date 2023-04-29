@@ -1,4 +1,5 @@
-import {FC, Fragment, ReactNode} from 'react';
+"use client";
+import React, {FC, Fragment, ReactNode, useEffect} from 'react';
 
 import Head from 'next/head';
 
@@ -15,6 +16,18 @@ export const Layout: FC<LayoutProps> = ({
   pageDescription,
   children,
 }) => {
+    const [scrollActive, setScrollActive] = React.useState(false);
+
+    useEffect(() => {
+        window.addEventListener('scroll', () => {
+            setScrollActive(window.scrollY > 20);
+        });
+        return () => {
+            window.removeEventListener('scroll', () => {
+                setScrollActive(window.scrollY > 20);
+            });
+        }
+    }, [])
   return (
     <Fragment>
       <Head>
@@ -22,11 +35,12 @@ export const Layout: FC<LayoutProps> = ({
         <meta name='description' content={pageDescription} />
       </Head>
 
-      <nav>
+      <nav className={ "fixed top-0 w-full z-30 bg-white transition-all " +
+          (scrollActive ? " shadow-md pt-0" : " pt-2")}>
         <Navbar />
       </nav>
 
-      <main>{children}</main>
+      <main className="w-full mt-4 ">{children}</main>
     </Fragment>
   );
 };
