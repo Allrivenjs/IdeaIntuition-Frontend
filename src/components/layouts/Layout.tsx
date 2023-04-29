@@ -40,7 +40,7 @@ export const Layout: FC<LayoutProps> = ({
         <Navbar />
       </nav>
 
-      <main className="w-full mt-4 ">{children}</main>
+      <main className="w-full mt-16 ">{children}</main>
     </Fragment>
   );
 };

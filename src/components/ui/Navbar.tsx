@@ -7,7 +7,7 @@ import { Button } from './Button';
 
 export const Navbar = () => {
   return (
-    <div className='max-w-screen-2xl px-4 sm:px-4 lg:px-4 mx-auto grid grid-flow-col py-3 sm:py-4'>
+    <div className='max-w-screen-2xl px-4 sm:px-4 lg:px-4 mx-auto grid grid-flow-col py-0 '>
       <div className='flex items-center col-start-auto col-end-1  gap-x-16 '>
         <Logo />
         <ul className='hidden lg:flex col-start-4 col-end-8 text-black-500  items-center ml-5'>

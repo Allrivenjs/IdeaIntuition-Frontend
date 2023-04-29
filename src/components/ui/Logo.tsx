@@ -1,36 +1,11 @@
-
+import Image from "next/image";
+import logo from "../../../public/IDEAINTUITION.svg";
+import Link from "next/link";
 
 export const Logo = () => {
   return (
-    <p className='w-14 '>
-      <svg
-        className='svg-standalone-icon'
-        width='100%'
-        viewBox='210.9813857612646 115 128.03722847747085 145.49612327423557'
-      >
-        <g
-          data-paper-data='{"fillRule":"evenodd","fillRuleOriginal":"evenodd","isIcon":true,"iconStyle":"standalone","selectedEffects":{"container":"","transformation":"","pattern":""},"bounds":{"x":210.9813857612646,"y":115,"width":128.03722847747085,"height":145.49612327423557},"iconType":"icon","rawIconId":"224067","isDetailed":false,"suitableAsStandaloneIcon":true}'
-          fillRule='evenodd'
-        >
-          <g data-paper-data='{"isPathIcon":true}' fill={"#F53855FF"}>
-            <path d='M254.79212,126.80093l20.20788,-11.80093l20.20788,11.80093l-20.20788,11.63993z'></path>
-            <path d='M254.79212,150.08079l20.20788,11.80093l20.20788,-11.80093l-20.20788,-11.63993z'></path>
-            <path d='M234.58424,138.44086l20.20788,11.63993l-20.20788,11.80093l-20.36888,-11.80093z'></path>
-            <path d='M254.79212,173.52165l20.20788,-11.63993l20.20788,11.63993l-20.20788,11.63993z'></path>
-            <path d='M315.41576,161.88172l-20.20788,-11.80093l20.20788,-11.63993l20.36888,11.63993z'></path>
-            <path d='M210.98139,155.41576l20.36988,11.63993v23.44086l-20.36988,-11.63993z'></path>
-            <path d='M251.55914,202.13547l-20.20788,-11.63893v23.27886l20.20788,11.80193z'></path>
-            <path d='M210.98139,202.13547l20.36988,11.63993v23.44086l-20.36988,-11.63893z'></path>
-            <path d='M251.55914,225.57733l20.20788,11.63893v23.27986l-20.20788,-11.63993z'></path>
-            <path d='M271.76702,213.7754l-20.20788,-11.63993v-23.27886l20.20788,11.63993z'></path>
-            <path d='M339.01861,178.85662l-20.36988,11.63993v-23.44086l20.36988,-11.63993z'></path>
-            <path d='M318.64874,213.7754l-20.20788,11.80193v-23.44186l20.20788,-11.63893z'></path>
-            <path d='M298.44086,202.13547l-20.20788,11.63993v-23.27886l20.20788,-11.63993z'></path>
-            <path d='M278.23298,237.21626l20.20788,-11.63893v23.27886l-20.20788,11.63993z'></path>
-            <path d='M318.64874,213.7754v23.44086l20.36988,-11.63893v-23.44186z'></path>
-          </g>
-        </g>
-      </svg>
-    </p>
+    <Link href={"/"}>
+      <Image src={logo}  alt={"IDEAINTUITION"} />
+    </Link>
   );
 };
