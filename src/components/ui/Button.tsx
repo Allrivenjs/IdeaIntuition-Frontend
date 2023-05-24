@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import NextLink from "next/link";
 
 type variant = 'text' | 'contained' | 'outlined';
 type color = 'primary' | 'success' | 'error' | 'danger';
@@ -10,6 +11,7 @@ interface ButtonProps {
   color?: color;
   size?: size;
   rounded?: rounded;
+  href?: string;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -18,6 +20,7 @@ export const Button: FC<ButtonProps> = ({
   size = 'base',
   color = 'primary',
   rounded = 'base',
+  href,
 }) => {
   const variantStyles: Record<variant, Record<color, string>> = {
     contained: {
@@ -50,12 +53,12 @@ export const Button: FC<ButtonProps> = ({
   };
 
   const roundedValue = roundedValues[rounded] || 'rounded';
-  return (
+  return <NextLink href={href || '#'} >
     <button
-      className={`py-2 px-5 sm:px-8 text-${size} ${(variantStyles[variant] as Record<color, string>)[color]}  font-medium tracking-wide border outline-none
+        className={`py-2 px-5 sm:px-8 text-${size} ${(variantStyles[variant] as Record<color, string>)[color]}  font-medium tracking-wide border outline-none
         ${roundedValue} capitalize transition-all hover:shadow`}
     >
       {children}
     </button>
-  );
+  </NextLink>;
 };
