@@ -12,6 +12,7 @@ interface ButtonProps {
   size?: size;
   rounded?: rounded;
   href?: string;
+  className?: string;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -21,6 +22,7 @@ export const Button: FC<ButtonProps> = ({
   color = 'primary',
   rounded = 'base',
   href,
+  className,
 }) => {
   const variantStyles: Record<variant, Record<color, string>> = {
     contained: {
@@ -55,8 +57,8 @@ export const Button: FC<ButtonProps> = ({
   const roundedValue = roundedValues[rounded] || 'rounded';
   return <NextLink href={href || '#'} >
     <button
-        className={`py-2 px-5 sm:px-8 text-${size} ${(variantStyles[variant] as Record<color, string>)[color]}  font-medium tracking-wide border outline-none
-        ${roundedValue} capitalize transition-all hover:shadow`}
+        className={`py-2 px-5 sm:px-8 text-${size} ${(variantStyles[variant] as Record<color, string>)[color]}  font-medium tracking-wide border outline-none 
+        ${roundedValue} capitalize transition-all hover:shadow ${className}`}
     >
       {children}
     </button>
