@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import { Layout } from '@/components/layouts';
@@ -17,7 +18,6 @@ export default function Home() {
             <code className='font-mono font-bold text-red-500'>
               {' '}
               You watch this...
-
             </code>
           </p>
         </div>
