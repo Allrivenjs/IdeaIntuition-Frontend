@@ -1,6 +1,7 @@
 'use client';
+import { useState } from 'react';
+
 import { Layout } from '@/components/layouts';
-import { ChangeEventHandler, useState } from 'react';
 import { Button } from '@/components/ui';
 
 export default function Login() {
@@ -26,10 +27,10 @@ export default function Login() {
   };
 
   return (
-    <Layout pageTitle={'Login'} pageDescription={'This is the login page'}>
+    <Layout>
       <div className='min-h-screen flex items-center justify-center bg-gray-100'>
         <div className='bg-white p-16 shadow-md rounded-md'>
-          <h2 className='text-2xl font-bold mb-6'>Iniciar sesión</h2>
+          <h2 className='text-2xl font-bold mb-6'>Registro</h2>
           <form onSubmit={handleSubmit}>
             <div className='mb-4'>
               <label
