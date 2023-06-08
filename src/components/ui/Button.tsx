@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import NextLink from "next/link";
+import { FC, MouseEvent } from 'react';
+import NextLink from 'next/link';
 
 type variant = 'text' | 'contained' | 'outlined';
 type color = 'primary' | 'success' | 'error' | 'danger';
@@ -13,6 +13,7 @@ interface ButtonProps {
   rounded?: rounded;
   href?: string;
   className?: string;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -23,6 +24,7 @@ export const Button: FC<ButtonProps> = ({
   rounded = 'base',
   href,
   className,
+  onClick,
 }) => {
   const variantStyles: Record<variant, Record<color, string>> = {
     contained: {
@@ -39,11 +41,11 @@ export const Button: FC<ButtonProps> = ({
     },
     outlined: {
       primary:
-          'text-rose-500 border-rose-500 border-rose-500 hover:shadow-rose-500',
+        'text-rose-500 border-rose-500 border-rose-500 hover:shadow-rose-500',
       success:
-          'text-green-500 border-green-500 border-green-500 hover:shadow-green-500',
+        'text-green-500 border-green-500 border-green-500 hover:shadow-green-500',
       danger:
-          'text-yellow-500 border-yellow-500 border-yellow-500 hover:shadow-yellow-500',
+        'text-yellow-500 border-yellow-500 border-yellow-500 hover:shadow-yellow-500',
       error: 'text-red-700 border-red-700 border-red-700 hover:shadow-red-700',
     },
   };
@@ -55,12 +57,17 @@ export const Button: FC<ButtonProps> = ({
   };
 
   const roundedValue = roundedValues[rounded] || 'rounded';
-  return <NextLink href={href || '#'} >
-    <button
-        className={`py-2 px-5 sm:px-8 text-${size} ${(variantStyles[variant] as Record<color, string>)[color]}  font-medium tracking-wide border outline-none 
-        ${roundedValue} capitalize transition-all hover:shadow ${className}`}
-    >
-      {children}
-    </button>
-  </NextLink>;
+  return (
+    <NextLink href={href || '#'}>
+      <button
+        onClick={onClick}
+        className={`py-2 px-5 sm:px-8 text-${size} ${
+          (variantStyles[variant] as Record<color, string>)[color]
+        }  font-medium tracking-wide border outline-none 
+      ${roundedValue} capitalize transition-all hover:shadow ${className}`}
+      >
+        {children}
+      </button>
+    </NextLink>
+  );
 };

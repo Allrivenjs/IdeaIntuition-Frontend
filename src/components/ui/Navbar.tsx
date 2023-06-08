@@ -20,10 +20,21 @@ export const Navbar = () => {
       <div className='col-start-10 col-end-12 font-medium flex justify-end items-center'>
         <ul className='flex'>
           <Sign>
-            <Button href={"/auth/login"} variant='outlined' color='primary' size='base' rounded='full'>
+            <Button
+              href={'/auth/login'}
+              variant='outlined'
+              color='primary'
+              size='base'
+              rounded='full'
+            >
               Sign In
             </Button>
-            <Button color='primary' rounded='full' variant='contained'>
+            <Button
+              href='/auth/register'
+              color='primary'
+              rounded='full'
+              variant='contained'
+            >
               Sign Up
             </Button>
           </Sign>
