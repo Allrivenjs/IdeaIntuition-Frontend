@@ -1,5 +1,6 @@
 import { Button, Card, ChipButton, Heading, View } from '@/components/ui';
 import {useEffect, useState} from 'react';
+import axios from "axios";
 
 const thematics = [
   {
@@ -236,15 +237,7 @@ export const CreateProjectView = () => {
       "user_id": 1
     }
     data.step.forEach((value, index) =>{
-       const el = idMatchToSend.find( v => v.id = value.step);
-       console.log(value, el)
-       if (el?.id == 4){
-         send = {
-           ...send,
-            "context": description
-         }
-         return;
-       }
+       const el = idMatchToSend[index];
        if (el?.id == 1){
          send = {
            ...send,
@@ -260,6 +253,26 @@ export const CreateProjectView = () => {
          }
        }
     })
+    send = {
+      ...send,
+      "context": description
+    }
+
+    axios.post('https://ideaintuition-production.up.railway.app/api/create-project', send, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+        .then(response => {
+          // La solicitud se realizó correctamente
+          // Aquí puedes realizar cualquier acción adicional si es necesario
+          console.log('Solicitud exitosa');
+          console.log(response);
+        })
+        .catch(error => {
+          // Error en la solicitud
+          console.log('Error en la solicitud', error);
+        });
 
   }
 
