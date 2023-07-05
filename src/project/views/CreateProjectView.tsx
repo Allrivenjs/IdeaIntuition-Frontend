@@ -116,32 +116,65 @@ const createSteps = [
   },
   {
     id: 2,
-    heading: 'Selecciona un nivel de rigurosidad para tu proyecto',
-    content: typeOfWork,
-  },
-  {
-    id: 3,
     heading: 'Selecciona la tecnologia que deseas utilizar',
     content: typeOfTechnology,
   },
   {
-    id: 4,
+    id: 3,
     heading: 'Selecciona el enfoque de tu proyecto',
     content: typeOfFocus,
   },
   {
-    id: 5,
+    id: 4,
     heading: 'Danos una breve descripción de lo que deseas realizar',
     content: [],
   }
 ];
 
+interface CreateProjectViewData {
+  step: {
+    id: number;
+    value: string;
+    step: number;
+  }[],
+}
+
+const idMatchToSend = [
+  {
+    id: 0,
+    value: "course"
+  },
+  {
+    id: 1,
+    value: "requirements"
+  },
+  {
+    id: 2,
+    value: "technology"
+  },
+  {
+    id: 3,
+    value: "approach"
+  },
+  {
+    id: 4,
+    value: "context"
+  }
+]
+
 export const CreateProjectView = () => {
   const [step, setStep] = useState(0);
   const [description, setDescription] = useState("");
-
+  const [data, setData] = useState<CreateProjectViewData>({
+    step: [],
+  });
   const nextStep = () => {
     if (step + 1 >= createSteps.length) {
+      return;
+    }
+    const s = data.step.find(v => v.step === step)
+    if (!s){
+      alert('Debe selecionar uno.')
       return;
     }
     setStep((prevStep) => prevStep + 1);
@@ -154,18 +187,92 @@ export const CreateProjectView = () => {
     setStep((prevStep) => prevStep - 1);
   };
 
-  //TODO:
-  const onClickOnChip = (id: number) => {};
+  const handleDescription = (e: any) => {
+    setDescription(e.target.value);
+  }
 
+  //TODO:
+  const onClickOnChip = (id: number) => {
+    const name = createSteps[step].content.find((content) => content.id === id)?.name;
+
+    if (!name) {
+      alert("No se encontró el nombre del chip");
+      return;
+    }
+
+    const updatedStep = {
+      id,
+      value: name,
+      step
+    };
+
+    const existingIndex = data.step.findIndex((item) => item.step === step);
+
+    if (existingIndex !== -1) {
+      setData((prevData) => ({
+        ...prevData,
+        step: [
+          ...prevData.step.slice(0, existingIndex),
+          updatedStep,
+          ...prevData.step.slice(existingIndex + 1)
+        ]
+      }));
+    } else {
+      setData((prevData) => ({
+        ...prevData,
+        step: [...prevData.step, updatedStep]
+      }));
+    }
+  };
+
+  const send = () => {
+    let send = {
+      "type_project":"",
+      "approach": "",
+      "requirements": "",
+      "course": "",
+      "technology": "",
+      "context": "",
+      "user_id": 1
+    }
+    data.step.forEach((value, index) =>{
+       const el = idMatchToSend.find( v => v.id = value.step);
+       console.log(value, el)
+       if (el?.id == 4){
+         send = {
+           ...send,
+            "context": description
+         }
+         return;
+       }
+       if (el?.id == 1){
+         send = {
+           ...send,
+           "type_project": value.value,
+           "requirements": value.value
+         }
+         return;
+       }
+       if (el){
+         send = {
+           ...send,
+           [el.value]: value.value
+         }
+       }
+    })
+
+  }
+
+  console.log(data)
 
   return (
     <View>
-      <Card width={700}>
+      <Card width={600}>
         <Heading>{createSteps[step].heading}</Heading>
-        <div className='flex flex-wrap w-full mb-6'>
+        <div className={ 'flex flex-wrap mb-6' + (createSteps[step].content.length === 0 ? ' w-full' : '') }>
           { createSteps[step].content.length === 0 ?
-              <div className="w-full ">
-                <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              <div className="w-full">
+                <textarea id="message" rows={4} value={description} maxLength={500} onChange={handleDescription} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                           placeholder="Escribe aqui...">
 
                 </textarea>
@@ -174,7 +281,7 @@ export const CreateProjectView = () => {
               :
               createSteps[step].content.map((content) => (
               <ChipButton
-                onClick={() => onClickOnChip(0)}
+                onClick={() => onClickOnChip(content.id)}
                 key={content.id}
                 children={content.name}
               />
@@ -192,15 +299,28 @@ export const CreateProjectView = () => {
               Atras
             </Button>
           )}
-          <Button
-            className='mt-9'
-            variant='contained'
-            rounded='full'
-            size='sm'
-            onClick={nextStep}
-          >
-            Siguiente
-          </Button>
+          {
+            step === createSteps.length - 1 ?
+                (<Button
+                    className='mt-9'
+                    variant='contained'
+                    rounded='full'
+                    size='sm'
+                    onClick={send}
+                >
+                  Enviar
+                </Button>)
+                :
+                (<Button
+                    className='mt-9'
+                    variant='contained'
+                    rounded='full'
+                    size='sm'
+                    onClick={nextStep}
+                >
+                  Siguiente
+                </Button>)
+          }
         </div>
       </Card>
     </View>
