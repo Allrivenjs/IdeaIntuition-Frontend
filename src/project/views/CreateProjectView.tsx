@@ -169,6 +169,7 @@ export const CreateProjectView = () => {
   const [data, setData] = useState<CreateProjectViewData>({
     step: [],
   });
+  const [room, setRoom] = useState(0);
   const nextStep = () => {
     if (step + 1 >= createSteps.length) {
       return;
@@ -268,12 +269,27 @@ export const CreateProjectView = () => {
           // Aquí puedes realizar cualquier acción adicional si es necesario
           console.log('Solicitud exitosa');
           console.log(response);
+          setRoom(response.data.room.ID)
         })
         .catch(error => {
           // Error en la solicitud
           console.log('Error en la solicitud', error);
         });
 
+    axios.post('https://ideaintuition-production.up.railway.app/api/messages', { room_id: room}, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }) .then(response => {
+      // La solicitud se realizó correctamente
+      // Aquí puedes realizar cualquier acción adicional si es necesario
+      console.log('Solicitud exitosa');
+      console.log(response);
+    })
+        .catch(error => {
+          // Error en la solicitud
+          console.log('Error en la solicitud', error);
+        });
   }
 
   console.log(data)
