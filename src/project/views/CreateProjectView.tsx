@@ -1,5 +1,5 @@
 import { Button, Card, ChipButton, Heading, View } from '@/components/ui';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 
 const thematics = [
   {
@@ -52,6 +52,57 @@ const typeOfWork = [
   },
 ];
 
+const typeOfTechnology = [
+  {
+    id: 1,
+    name: 'Desarrollo web',
+    active: false,
+  },
+  {
+    id: 2,
+    name: 'Desarrollo mobile',
+    active: false,
+  },
+  {
+    id: 3,
+    name: 'Desarrollo desktop',
+    active: false,
+  },
+  {
+    id: 4,
+    name: 'Desarrollo de videojuegos',
+    active: false,
+  },
+  {
+    id: 5,
+    name: 'Seguridad',
+    active: false,
+  },
+];
+
+const typeOfFocus = [
+  {
+    id: 1,
+    name: 'Desarrollo de aplicaciones',
+    active: false,
+  },
+  {
+    id: 2,
+    name: 'Desarrollo de infraestructura',
+    active: false,
+  },
+  {
+    id: 3,
+    name: 'Investigación',
+    active: false,
+  },
+  {
+    id: 4,
+    name: 'Desarrollo de videojuegos',
+    active: false,
+  },
+];
+
 const createSteps = [
   {
     id: 0,
@@ -60,13 +111,34 @@ const createSteps = [
   },
   {
     id: 1,
+    heading: 'Selecciona el tipo de proyecto que deseas realizar',
+    content: typeOfWork,
+  },
+  {
+    id: 2,
     heading: 'Selecciona un nivel de rigurosidad para tu proyecto',
     content: typeOfWork,
   },
+  {
+    id: 3,
+    heading: 'Selecciona la tecnologia que deseas utilizar',
+    content: typeOfTechnology,
+  },
+  {
+    id: 4,
+    heading: 'Selecciona el enfoque de tu proyecto',
+    content: typeOfFocus,
+  },
+  {
+    id: 5,
+    heading: 'Danos una breve descripción de lo que deseas realizar',
+    content: [],
+  }
 ];
 
 export const CreateProjectView = () => {
   const [step, setStep] = useState(0);
+  const [description, setDescription] = useState("");
 
   const nextStep = () => {
     if (step + 1 >= createSteps.length) {
@@ -85,17 +157,27 @@ export const CreateProjectView = () => {
   //TODO:
   const onClickOnChip = (id: number) => {};
 
+
   return (
     <View>
-      <Card width={600}>
+      <Card width={700}>
         <Heading>{createSteps[step].heading}</Heading>
-        <div className='flex flex-wrap'>
-          {createSteps[step].content.map((content) => (
-            <ChipButton
-              onClick={() => onClickOnChip(0)}
-              key={content.id}
-              children={content.name}
-            />
+        <div className='flex flex-wrap w-full mb-6'>
+          { createSteps[step].content.length === 0 ?
+              <div className="w-full ">
+                <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          placeholder="Escribe aqui...">
+
+                </textarea>
+
+              </div>
+              :
+              createSteps[step].content.map((content) => (
+              <ChipButton
+                onClick={() => onClickOnChip(0)}
+                key={content.id}
+                children={content.name}
+              />
           ))}
         </div>
         <div className='flex w-full justify-end'>
